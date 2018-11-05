@@ -16,15 +16,24 @@
       </li>
       <li class="nav-item ml-auto dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-         <i class="fas fa-user"></i> 
-         <span class="account-name-span">
-          Account
-         </span> 
+         <i class="fas fa-user"></i>
+         {{#if user}}
+            <span class="account-name-span">
+              Hi, {{user.firstname}}
+            </span>
+         {{else}}
+            <span class="account-name-span">
+              Account
+            </span> 
+         {{/if}} 
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
+          {{#if user}}
+            <a class="dropdown-item" href="/user/logout">Logout</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          {{else}}
+            <a class="dropdown-item" href="/user/signup">Sign Up</a>
+          {{/if}}
         </div>
       </li>
     </ul>  

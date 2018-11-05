@@ -1,96 +1,84 @@
 const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
 const uuid = require("node-uuid");
+const bcrypt = require('bcrypt-nodejs')
 
 let exportedMethods = {
-  getAllUsers() {
-    return users().then(userCollection => {
-      return userCollection.find({}).toArray();
-    });
+  async getAllUsers()
+  {
+      const userModel = await users();
+      const userCollection = await userModel.find({}).toArray();
+      return userCollection;
   },
-  // This is a fun new syntax that was brought forth in ES6, where we can define
-  // methods on an object with this shorthand!
-  getUserById(id) {
-    return users().then(userCollection => {
-      return userCollection.findOne({ _id: id }).then(user => {
-        if (!user) throw "User not found";
-
-        return user;
-      });
-    });
-  },
-  addUser(firstName, lastName) {
-    return users().then(userCollection => {
-      let newUser = {
-        firstName: firstName,
-        lastName: lastName,
-        _id: uuid.v4(),
-        posts: []
-      };
-
-      return userCollection
-        .insertOne(newUser)
-        .then(newInsertInformation => {
-          return newInsertInformation.insertedId;
-        })
-        .then(newId => {
-          return this.getUserById(newId);
-        });
-    });
-  },
-  removeUser(id) {
-    return users().then(userCollection => {
-      return userCollection.removeOne({ _id: id }).then(deletionInfo => {
-        if (deletionInfo.deletedCount === 0) {
-          throw `Could not delete user with id of ${id}`;
-        }
-      });
-    });
-  },
-  updateUser(id, updatedUser) {
-    return this.getUserById(id).then(currentUser => {
-      let updatedUser = {
-        firstName: updatedUser.firstName,
-        lastName: updatedUser.lastName
-      };
-
-      let updateCommand = {
-        $set: updatedUser
-      };
-
-      return userCollection.updateOne({ _id: id }, updateCommand).then(() => {
-        return this.getUserById(id);
-      });
-    });
-  },
-  addPostToUser(userId, postId, postTitle) {
-    return this.getUserById(id).then(currentUser => {
-      return userCollection.updateOne(
-        { _id: id },
-        {
-          $addToSet: {
-            posts: {
-              id: postId,
-              title: postTitle
-            }
+  async getUserById(id)
+  {
+      if(id && id != null) {
+          const userCollection = await users();
+          const user = await userCollection.findOne({ _id: id });
+          if(!user) {
+              throw "Oops! User not found";
           }
-        }
-      );
-    });
+          return user;
+      } else {
+          throw "User does not exist with that ID";
+      }
   },
-  removePostFromUser(userId, postId) {
-    return this.getUserById(id).then(currentUser => {
-      return userCollection.updateOne(
-        { _id: id },
+  async getUserByEmail(email) {
+    if(email && email != null) {
+      const userCollection = await users();
+      const user = await userCollection.findOne({ "email": email });
+      if(!user) {
+          return false;
+      }
+      console.log(user);
+      return user;
+    }
+    else {
+      return false;
+    }
+  },
+  async getUserByUsername(username) {
+    if(username && username != null) {
+      const userCollection = await users();
+      const user = await userCollection.findOne({ "username": username });
+      if(!user) {
+          return false;
+      }
+      console.log(user);
+      return user;
+    }
+    else {
+      return false;
+    }
+  },
+  async addUser(user)
+  {
+        firstName = user.firstname;
+        lastName = user.lastname;
+        username = user.username;
+        email = user.email;
+        password = user.password;
+        const userCollection = await users();
+        const newUser =
         {
-          $pull: {
-            posts: {
-              id: postId
-            }
-          }
-        }
-      );
-    });
+            _id: uuid.v4(),
+            firstname: firstName,
+            lastname: lastName,
+            username: username,
+            email: email,
+            password: password
+        };
+        const userInserted = await userCollection.insertOne(newUser);
+        const userId = userInserted.insertedId;
+        userStored = await this.getUserById(userId);
+        // console.log(userStored);
+        return userStored;
+  },
+  encryptPassword(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(5), null);
+  },
+  validPassword(password,user) {
+    return bcrypt.compareSync(password, user.password);
   }
 };
 
