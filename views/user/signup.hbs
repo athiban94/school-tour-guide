@@ -11,6 +11,10 @@
             </div>
         {{/if}} --}}
         <form action="/user/signup" method="post">
+            {{#if message}}
+                <div class="alert-danger">{{message}}</div>
+                <br>
+            {{/if}}
             <div class="form-group">
                 <label for="firstname">First Name</label>
                 <input type="text" id="firstname" name="firstname" class="form-control">

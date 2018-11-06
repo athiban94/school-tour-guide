@@ -53,6 +53,12 @@ let exportedMethods = {
   },
   async addUser(user)
   {
+        if(user.firstname === undefined || user.firstname === "") throw "Missing Firstname"
+        if(user.lastname === undefined || user.lastname === "") throw "Missing Lastname"
+        if(user.username === undefined || user.username === "") throw "Missing Username"
+        if(user.email === undefined || user.email === "") throw "Missing Email"
+        if(user.password === undefined || user.password === "") throw "Missing Password"
+        
         firstName = user.firstname;
         lastName = user.lastname;
         username = user.username;
