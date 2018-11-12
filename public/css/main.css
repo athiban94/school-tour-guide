@@ -1,0 +1,46 @@
+.from-outer-wrapper {
+    max-width: 600px;
+    margin: 0px auto;
+}
+.btn-cta-wrapper
+{
+    text-align: center;
+}
+.form-heading
+{
+    padding-top: 10px;
+    font-variant: small-caps;
+    text-align: center;
+}
+.btn-style 
+{
+    font-variant: small-caps;
+    font-size: 18px;   
+}
+.message-container
+{
+    padding: 12px;
+    border-radius: 2px;
+}
+.validate-input
+{
+    border: 1px solid #b50b21;
+}
+
+@media only screen and (max-width: 767px) {
+    .account-dropdown-menu,.logo-desk {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .logo-mobile {
+        display: none;
+    }
+}
+.logo-mobile img
+{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}

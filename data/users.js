@@ -51,6 +51,25 @@ let exportedMethods = {
       return false;
     }
   },
+
+  async getUserByUserNameOrEmail(username, email) {
+    if(username && username != null) {
+      const userCollection = await users();
+      const user = await userCollection.findOne({ "username": username });
+      if(!user) {
+        return false;
+      }
+    }
+    if(email && email != null) {
+      const userCollection = await users();
+      const user = await userCollection.findOne({ "email": email });
+      if(!user) {
+          return false;
+      }
+    }
+    return true;
+  },
+
   async addUser(user)
   {
         if(user.firstname === undefined || user.firstname === "") throw "Missing Firstname"

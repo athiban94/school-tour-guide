@@ -20,9 +20,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(session({secret: 'mysupersecret', resave: false, saveUninitialized: false}));
-app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 // View engine setup
 app.engine('.hbs', exphbs({defaultLayout: 'layout', extname: '.hbs'}));
