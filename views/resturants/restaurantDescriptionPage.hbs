@@ -1,0 +1,33 @@
+<div class="heading-container">
+    <h1>
+        {{restaurant.name}}
+    </h1>
+</div>
+<div class="body-container-class">
+    <div class="row description-page-wrapper">
+        <div class="col-xs-12 col-md-6 col-sm-6 col-lg-6">
+            <img src="{{restaurant.logoimg}}">
+        </div>
+        <div class="col-xs-12 col-md-6 col-sm-6 col-lg-6">
+            <div class="long-description">
+                {{restaurant.description}}
+            </div>
+            <input type="hidden" value="{{restaurant._id}}" class="retaurant_id">
+            <div class="user-comments">
+                {{#each comments}}
+                    <div class="comment-text">
+                        {{this.commenttext}}
+                    </div>
+                {{/each}}
+            </div>
+            <div class="comment-div-wrapper">
+                <label for="comment" class="comment-label">Comments:</label>
+                <textarea class="form-control rounded-0 comment-area" placeholder="Enter a comment"  rows="3"></textarea>
+            </div>
+            <br>
+            <div class="comment-submit-wrapper-div">
+                <button type="button" class="btn btn-primary comment-submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

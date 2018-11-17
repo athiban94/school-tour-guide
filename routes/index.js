@@ -1,35 +1,31 @@
 const path = require("path");
 const userRoutes = require("./users");
-// var express = require('express');
-// var router = express.Router();
+const schoolRoutes = require("./schools");
+const restaurantRoutes = require("./restaurants");
+const commentsRoutes = require("./comments");
+const schoolData = require("../data/schools");
+
 
 const constructorMethod = app => {
-  
-  // Global to use in all the routes
-  // app.use(function(req, res, next) {
-  //   if (req.isAuthenticated()) {
-  //     res.locals.user = req.user;
-  //   } else {
-
-  //   }
-  // });
-
   // User Routes
   app.use("/user", userRoutes);
 
+  // School Routes
+  app.use("/school", schoolRoutes);
+
+  // Restaurant Routes
+  app.use("/restaurant", restaurantRoutes);
+
+  // Comment Routes
+  app.use("/comment", commentsRoutes);
+
   // Route to get to the Homepage
-  app.get('/', function(req, res, next) {
-    if (req.isAuthenticated()) {
+  app.get('/', async function(req, res, next) {
+      schools = await schoolData.getSchoolList();
       res.render('index', { 
         title: 'Express',
-        user: req.user 
+        schools: schools
       });
-    } else {
-      res.render('index', { 
-        title: 'Express',
-        user: null 
-      });
-    }
   });
 
   app.get("/about", (req, res) => {

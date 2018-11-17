@@ -13,6 +13,30 @@ $( document ).ready(function() {
         }
     });
 
+    $("button.comment-submit").click(function(event){
+        commentText = $(".comment-div-wrapper textarea.comment-area").val();
+        restaurantId = $(".retaurant_id").val();
+        if(!commentText || commentText === "") {
+            $(".comment-div-wrapper textarea.comment-area").addClass("validate-input");
+            return false;
+        }
+        postData = {
+            'commenttext' : commentText,
+            'restaurantid' : restaurantId
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/comment/addcomment',
+            data: postData,
+            success: function(response) {
+                return false;
+            },
+            error: function(error) {
+                console.log("Exception Caught: " + error);
+            }
+        });
+    });
+
 });
 
 function validateFormFields(formId) {

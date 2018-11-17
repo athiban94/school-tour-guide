@@ -35,7 +35,7 @@
          <i class="fas fa-user"></i>
          {{#if user}}
             <span class="account-name-span">
-              Hi, {{user.firstname}}
+              Hi, <span class="user-name">{{user.firstname}}</span>
             </span>
          {{else}}
             <span class="account-name-span">
@@ -45,8 +45,8 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
           {{#if user}}
+            <a class="dropdown-item" href="/user/profile">Profile</a>
             <a class="dropdown-item" href="/user/logout">Logout</a>
-            <a class="dropdown-item" href="#">Something else here</a>
           {{else}}
             <a class="dropdown-item" href="/user/signup">Sign Up</a>
             <a class="dropdown-item" href="/user/login">Login</a>

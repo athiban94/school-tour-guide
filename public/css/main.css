@@ -1,3 +1,14 @@
+div,p,span{
+    font-size: 16px;
+}
+h1 {
+    font-variant: small-caps;
+}
+.heading-container
+{
+    text-align: center;
+    padding: 10px 0px;
+}
 .from-outer-wrapper {
     max-width: 600px;
     margin: 0px auto;
@@ -31,6 +42,9 @@
     .account-dropdown-menu,.logo-desk {
         display: none;
     }
+    .restaurant-list-wrapper{
+        margin: -5px;
+    }
 }
 
 @media only screen and (min-width: 768px) {
@@ -43,4 +57,57 @@
     height: 50px;
     width: 50px;
     border-radius: 50%;
+}
+.user-name 
+{
+    text-transform: capitalize;
+}
+.school-img-container img {
+    max-width: 100%;
+    max-height: 350px;
+}
+.school-info-wrapper
+{
+    text-align: center;
+}
+.school-description
+{
+    padding: 10px 0px;
+    font-size: 18px;
+}
+.school-title
+{
+    text-align: center;
+    padding-bottom: 10px;
+}
+.restaurant-list-wrapper
+{
+    padding: 10px;
+    border: 1px solid #d3d3d3;
+    border-radius: 10px;
+}
+.restaurant-img-div 
+{
+    padding: 5px;
+}
+.restaurant-img-div img 
+{
+    max-width: 100%;
+}
+.restaurant-name
+{
+    font-variant: small-caps;
+    font-size: 21px;
+}
+.restaurant-address-span
+{
+    font-variant: small-caps;
+}
+.restaurant-addres-text, .restaurant-description
+{
+    color: rgb(108,115,124);
+}
+.comment-area
+{
+    border-radius: 3px !important;
 }

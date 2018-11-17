@@ -28,9 +28,8 @@ app.use(flash());
 app.engine('.hbs', exphbs({defaultLayout: 'layout', extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
-app.get('*', function(req, res, next) {
+app.use('*', function(req, res, next) {
   res.locals.user = req.user || null;
-  console.log(res.locals.user);
   next();
 });
 
