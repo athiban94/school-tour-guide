@@ -29,6 +29,9 @@ $( document ).ready(function() {
             url: '/comment/addcomment',
             data: postData,
             success: function(response) {
+                
+                $('.user-comments').append('<div class="comment-text">"' + response.commenttext + '"</div>')
+                $('.user-comments').append('<div class="username-text">-' + response.username + '</div>')
                 return false;
             },
             error: function(error) {

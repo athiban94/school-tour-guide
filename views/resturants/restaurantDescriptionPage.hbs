@@ -13,19 +13,21 @@
                 {{restaurant.description}}
             </div>
             <input type="hidden" value="{{restaurant._id}}" class="retaurant_id">
+            <br>
             <div class="user-comments">
+                <p class="comment-header">Comments</p>
                 {{#each comments}}
-                    <div class="comment-text">
-                        {{this.commenttext}}
-                    </div>
-                    <div class="username-text-comment">
-                        {{this.username}}
-                    </div>
-                {{/each}}
+                <div class="user-comment">
+                    <div class="comment-text">"{{this.commenttext}}"</div>
+                    <div class="username-text">- {{this.username}}</div>
+                    
+                    
+                </div>
+                <br> {{/each}}
             </div>
             <div class="comment-div-wrapper">
-                <label for="comment" class="comment-label">Comments:</label>
-                <textarea class="form-control rounded-0 comment-area" placeholder="Enter a comment"  rows="3"></textarea>
+                <label for="comment" class="comment-label">Leave a comment:</label>
+                <textarea class="form-control rounded-0 comment-area" placeholder="Enter a comment" rows="3"></textarea>
             </div>
             <br>
             <div class="comment-submit-wrapper-div">

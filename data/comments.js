@@ -27,7 +27,7 @@ let exportedMethods = {
             if(!comment) {
                 throw "Oops! there is no comment exist.";
             }
-            return restaurant;
+            return comment;
         } else {
             throw "No comment exist with the ID specified.";
         }
