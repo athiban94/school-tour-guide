@@ -36,7 +36,14 @@ $( document ).ready(function() {
                     $(".user-review-section").hide();
                     return false;
                 } else {
-                    alert(response.message);
+                    swal({
+                        title: "You are not logged in!!",
+                        text: "Please login to comment..",
+                        type: "warning",
+                        showCancelButton: false,
+                        confirmButtonClass: 'btn-primary',
+                        confirmButtonText: 'OK'
+                    });
                 }
             },
             error: function(error) {
@@ -46,9 +53,52 @@ $( document ).ready(function() {
     });
 
     $(".wishlist-add-wrapper .place-options").click(function(event){
+        el = $(this);
         option = $(this).attr('data-action');
+        restaurantId = $(this).attr('data-id');
+        postData = {
+            'restaurantid' : restaurantId
+        }
         if(option == "wishlist") {
-            $(this).addClass("added-to-wishlist");
+            if(el.hasClass('added-to-wishlist')) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Do you really wanna remove from your wishlist?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Remove",
+                    closeOnConfirm: false
+                  },
+                  function(){
+                    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                  });
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/user/addtowishlist',
+                    data: postData,
+                    success: function(response) {
+                        console.log(response);
+                        console.log(response.validation);
+                        if(response.validation) {
+                            el.addClass("added-to-wishlist");
+                        } else {
+                           swal({
+                                title: "You are not logged in!",
+                                text: "Please login to add to wishlist..",
+                                type: "warning",
+                                showCancelButton: false,
+                                confirmButtonClass: 'btn-primary',
+                                confirmButtonText: 'OK'
+                            }); 
+                        }
+                    },
+                    error: function(error) {
+                        console.log("Exception Caught: " + error);
+                    }
+                });
+            }
         } else {
             $(this).addClass("upvoted");
         }

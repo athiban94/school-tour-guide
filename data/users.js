@@ -10,6 +10,7 @@ let exportedMethods = {
       const userCollection = await userModel.find({}).toArray();
       return userCollection;
   },
+
   async getUserById(id)
   {
       if(id && id != null) {
@@ -23,6 +24,7 @@ let exportedMethods = {
           throw "User does not exist with that ID";
       }
   },
+
   async getUserByEmail(email) {
     if(email && email != null) {
       const userCollection = await users();
@@ -37,6 +39,7 @@ let exportedMethods = {
       return false;
     }
   },
+
   async getUserByUsername(username) {
     if(username && username != null) {
       const userCollection = await users();
@@ -70,6 +73,31 @@ let exportedMethods = {
     return true;
   },
 
+  async addToWishlist(data,userId) {
+    console.log("User Id : " + userId);
+    const user = await this.getUserById(userId);
+    const userCollection = await users();
+    if(user.hasOwnProperty("wishlist")) {
+      wishlist = user.wishlist;
+      wishlist.push(data.restaurantid);
+    } else {
+      console.log("Wishlist does not exist");
+      wishlist = [];
+      wishlist.push(data.restaurantid);
+    }
+    user.wishlist = wishlist;
+    let updatecommand =
+    {
+        $set: user
+    };
+    const query =
+    {
+        _id: userId
+    };
+    await userCollection.updateOne(query, updatecommand);
+    return user
+  },
+
   async addUser(user)
   {
         if(user.firstname === undefined || user.firstname === "") throw "Missing Firstname"
@@ -99,12 +127,15 @@ let exportedMethods = {
         // console.log(userStored);
         return userStored;
   },
+
   encryptPassword(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(5), null);
   },
+
   validPassword(password,user) {
     return bcrypt.compareSync(password, user.password);
   }
+
 };
 
 module.exports = exportedMethods;

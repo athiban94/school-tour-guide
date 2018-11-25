@@ -61,6 +61,23 @@ router.get('/profile', function(req, res, next) {
   }
 });
 
+
+router.post('/addtowishlist', async function(req, res, next) {
+  if (req.isAuthenticated()) {
+    data = req.body;
+    userId = req.user._id;
+    data.validation = true;
+    wishlistAdded = await userData.addToWishlist(data,userId);
+    res.send(data);  
+  } else {
+    const json = {
+      "validation": false,
+      "message": "Please login to your account to comment"
+    }
+    res.send(json);
+  }
+});
+
 router.post('/signup', async function(req, res, next) {
   try {
     req.body.password = userData.encryptPassword(req.body.password);
