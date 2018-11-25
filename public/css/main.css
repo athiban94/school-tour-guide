@@ -168,3 +168,10 @@ h1 {
     font-style: italic;
     text-transform: capitalize; 
 }
+.description-page-wrapper {
+    align-items: center;
+}
+.restaurant-img-outer
+{
+    text-align: center;
+}
