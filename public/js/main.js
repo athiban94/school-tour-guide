@@ -71,7 +71,32 @@ $( document ).ready(function() {
                     closeOnConfirm: false
                   },
                   function(){
-                    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                    $.ajax({
+                        type: 'POST',
+                        url: '/user/removefromwishlist',
+                        data: postData,
+                        success: function(response) {
+                            console.log(response);
+                            console.log(response.validation);
+                            if(response.validation) {
+                                swal("Removed!", "The restaurant is removed from your wishlist", "success");
+                                el.removeClass("added-to-wishlist");
+                                console.log(response);
+                            } else {
+                               swal({
+                                    title: "You are not logged in!",
+                                    text: "Please login to add to wishlist..",
+                                    type: "warning",
+                                    showCancelButton: false,
+                                    confirmButtonClass: 'btn-primary',
+                                    confirmButtonText: 'OK'
+                                }); 
+                            }
+                        },
+                        error: function(error) {
+                            console.log("Exception Caught: " + error);
+                        }
+                    });
                   });
             } else {
                 $.ajax({
@@ -100,7 +125,40 @@ $( document ).ready(function() {
                 });
             }
         } else {
-            $(this).addClass("upvoted");
+            if(el.hasClass('upvoted')) {
+                postData.vote = false;
+            } else {
+                postData.vote = true;
+            }
+            console.log(postData);
+            $.ajax({
+                type: 'POST',
+                url: '/restaurant/vote',
+                data: postData,
+                success: function(response) {
+                    console.log(response);
+                    console.log(response.validation);
+                    if(response.validation) {
+                        if(postData.vote) {
+                            el.addClass("upvoted");
+                        } else {
+                            el.removeClass("upvoted");
+                        }
+                    } else {
+                       swal({
+                            title: "You are not logged in!",
+                            text: "Please login to post your vote",
+                            type: "warning",
+                            showCancelButton: false,
+                            confirmButtonClass: 'btn-primary',
+                            confirmButtonText: 'OK'
+                        }); 
+                    }
+                },
+                error: function(error) {
+                    console.log("Exception Caught: " + error);
+                }
+            });
         }
     });
 

@@ -1,6 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const restaurants = mongoCollections.restaurants;
 const uuid = require("node-uuid");
+const userData = require("../data/users");
 
 let exportedMethods = {
     async getAllRestaurants() {
@@ -50,6 +51,38 @@ let exportedMethods = {
         const restaurantId = restaurantInserted.insertedId;
         restaurantStored = await this.getRestaurantById(restaurantId);
         return restaurantStored;   
+    },
+
+    async voteRestaurant(restaurantJSON, userId) {
+        restaurant = await this.getRestaurantById(restaurantJSON.restaurantid);
+        const restaurantCollection = await restaurants();
+        // console.log("TYPE OF VOTE:" + typeof(restaurantJSON.vote));
+        if(restaurantJSON.vote == "true") {
+            restaurant.score += 1;
+        } else {
+            console.log("Got inside the else part");
+            restaurant.score -= 1;
+        }
+        console.log("Data before query: " + JSON.stringify(restaurant));
+        // restaurant.validation = true;
+        // return restaurant;
+        let updatecommand =
+        {
+            $set: restaurant
+        };
+        const query =
+        {
+            _id: restaurantJSON.restaurantid
+        };
+        await restaurantCollection.updateOne(query, updatecommand);
+        updatedData = await this.getRestaurantById(restaurantJSON.restaurantid);
+        if(restaurantJSON.vote == "true") {
+            await userData.saveRestaurantVoted(restaurantJSON.restaurantid, userId);
+        } else {
+            await userData.removeVoteForRestaurant(restaurantJSON.restaurantid, userId);
+        }
+        updatedData.validation = true;
+        return updatedData;
     }
 };
 

@@ -1,7 +1,9 @@
 const express = require("express");
+// const mongoCollections = require("../config/mongoCollections");
 const router = express.Router();
 const restaurantData = require("../data/restaurants");
 const commentsData = require("../data/comments");
+// const restaurants = mongoCollections.restaurants;
 const userData = require("../data/users");
 
 
@@ -20,6 +22,12 @@ router.get("/:id", async (req, res) => {
                 wishlist = userJSON.wishlist;
                 if(wishlist.includes(restaurantId)) {
                     sendData.wishlist = 'added-to-wishlist';
+                }
+            }
+            if(userJSON.hasOwnProperty("votes")) {
+                votes = userJSON.votes;
+                if(votes.includes(restaurantId)) {
+                    sendData.vote = 'upvoted';
                 }
             }
         }
@@ -52,6 +60,40 @@ router.post('/addrestaurant', async function (req, res, next) {
 
 });
 
+router.post('/vote', async function (req, res, next) {
+    if (req.isAuthenticated()) {
+        data = req.body;
+        userId = req.user._id;
+        data.validation = true;
+        console.log("Data passed to the route: " + JSON.stringify(data));
+        vote = await  restaurantData.voteRestaurant(data, userId);
+        res.send(vote);
+    } else {
+      const json = {
+        "validation": false,
+        "message": "Please login to your account to comment"
+      }
+      res.send(json);
+    }
+    // restaurant = await restaurantData.getRestaurantById(req.body.restaurantid);
+    // if(req.body.vote) {
+    //     restaurant.score += 1;
+    // } else {
+    //     restaurant.score -= 1;
+    // }
+    // const restaurantCollection = await restaurants();
+    // let updatecommand =
+    // {
+    //     $set: restaurant
+    // };
+    // const query =
+    // {
+    //     _id: req.body.restaurantid
+    // };
+    // await restaurantCollection.updateOne(query, updatecommand);
+    // return await restaurantData.getRestaurantById(req.body.restaurantid);
+
+});
 
 
 module.exports = router;

@@ -73,6 +73,53 @@ let exportedMethods = {
     return true;
   },
 
+  async saveRestaurantVoted(restaurantId, userId) {
+    const user = await this.getUserById(userId);
+    const userCollection = await users();
+    if(user.hasOwnProperty("votes")) {
+      votes = user.votes;
+      votes.push(restaurantId);
+    } else {
+      votes = [];
+      votes.push(restaurantId);
+    }
+    user.votes = votes;
+    let updatecommand =
+    {
+        $set: user
+    };
+    const query =
+    {
+        _id: userId
+    };
+    await userCollection.updateOne(query, updatecommand);
+    return user
+
+  },
+
+  async removeVoteForRestaurant(restaurantId, userId) {
+    const user = await this.getUserById(userId);
+    const userCollection = await users();
+    if(user.hasOwnProperty("votes")) {
+      votes = user.votes;
+      removeId = votes.indexOf(restaurantId);
+      if(removeId != -1) {
+        votes.splice(removeId, 1);
+        user.votes = votes;
+        let updatecommand =
+        {
+            $set: user
+        };
+        const query =
+        {
+            _id: userId
+        };
+        await userCollection.updateOne(query, updatecommand);
+        return user
+      }
+    }
+  },
+
   async addToWishlist(data,userId) {
     console.log("User Id : " + userId);
     const user = await this.getUserById(userId);
@@ -95,6 +142,32 @@ let exportedMethods = {
         _id: userId
     };
     await userCollection.updateOne(query, updatecommand);
+    return user
+  },
+
+  async removeFromWishlist(data,userId) {
+    const user = await this.getUserById(userId);
+    const restaurantId = data.restaurantid;
+    const userCollection = await users();
+    console.log("Restarant ID is : " + restaurantId);
+    if(user.hasOwnProperty("wishlist")) {
+      wishlist = user.wishlist;
+      removeId = wishlist.indexOf(restaurantId);
+      if(removeId != -1) {
+        wishlist.splice(removeId, 1);
+        user.wishlist = wishlist;
+        let updatecommand =
+        {
+            $set: user
+        };
+        const query =
+        {
+            _id: userId
+        };
+        await userCollection.updateOne(query, updatecommand);
+        return user
+      }
+    }
     return user
   },
 
