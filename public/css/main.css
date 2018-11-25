@@ -52,11 +52,18 @@ h1 {
     .restaurant-list-wrapper {
         margin: -5px;
     }
+    .right-mobile
+    {
+        float: right;
+    }
 }
 
 @media only screen and (min-width: 768px) {
     .logo-mobile {
         display: none;
+    }
+    .wishlist-add-wrapper span {
+        margin: 5px;
     }
 }
 
@@ -132,8 +139,32 @@ h1 {
     
     font-weight: bold;
 }
+.wishlist-add-wrapper {
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+.wishlist-add-wrapper i {
+    font-size: 22px;
+    color: #d3d3d3;
+    cursor: pointer;
+    -webkit-transition: width 2s, height 2s; /* For Safari 3.1 to 6.0 */
+    transition: width 2s, height 2s;
+}
+.wishlist-add-wrapper i:hover {
+    font-size: 24px;
+}
 
+.wishlist-add-wrapper i.added-to-wishlist 
+{
+    color: 	#F08080 !important;
+}
+
+.wishlist-add-wrapper i.upvoted 
+{
+    color: 	#90EE90 !important;
+}
 
 .username-text {
     font-style: italic;
+    text-transform: capitalize; 
 }

@@ -10,30 +10,27 @@ router.get("/:id", async (req, res) => {
         restaurantId = req.params.id;
         restaurant = await restaurantData.getRestaurantById(restaurantId);
         comments = await commentsData.getCommentsByRestaurant(restaurantId);
-        //console.log(comments);
-
+        showCommentSection = true;
+        var userId = 'ab';
+        if(req.user) {
+            userId = req.user._id;
+            console.log("User ID :: " + userId);
+        }
         for(let i = 0; i< comments.length; i++){
             let user = await userData.getUserById(comments[i].userid)
+            console.log(comments[i]);
+            if(comments[i].userid === userId) {
+                showCommentSection = false;
+                console.log("The logged in user had already commented");
+            }
             comments[i].username = user.firstname;
         }
-        //console.log(comments);
-        // Object.keys(comments).map(
-        //     async function (object) {
-        //         userModel = await userData.getUserById(comments[object]['userid']);
-        //         comments[object]["username"] = userModel.firstname;
-        //     });
-
-        // comments.forEach( async function(obj) {
-        //     userModel = await userData.getUserById(obj.userid);
-        //     obj['username'] = userModel.firstname;
-        // });
-
-        //setTimeout(function(){ console.log(comments); }, 3000);
-        console.log(comments);
+        
 
         res.render('resturants/restaurantDescriptionPage', {
             restaurant: restaurant,
-            comments: comments
+            comments: comments,
+            enablecomment: showCommentSection
         });
     } catch (error) {
         res.status(404).json(error);

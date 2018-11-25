@@ -29,16 +29,31 @@ $( document ).ready(function() {
             url: '/comment/addcomment',
             data: postData,
             success: function(response) {
-                
-                $('.user-comments').append('<div class="comment-text">"' + response.commenttext + '"</div>')
-                $('.user-comments').append('<div class="username-text">-' + response.username + '</div>')
-                return false;
+                console.log(response);
+                if(response.validation) {
+                    $('.user-comments').append('<div class="comment-text">"' + response.commenttext + '"</div>');
+                    $('.user-comments').append('<div class="username-text">- ' + response.username + '</div>');
+                    $(".user-review-section").hide();
+                    return false;
+                } else {
+                    alert(response.message);
+                }
             },
             error: function(error) {
                 console.log("Exception Caught: " + error);
             }
         });
     });
+
+    $(".wishlist-add-wrapper .place-options").click(function(event){
+        option = $(this).attr('data-action');
+        if(option == "wishlist") {
+            $(this).addClass("added-to-wishlist");
+        } else {
+            $(this).addClass("upvoted");
+        }
+    });
+
 
 });
 
