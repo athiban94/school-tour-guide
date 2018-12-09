@@ -52,6 +52,7 @@ router.post('/custom', async function(req, res, next) {
 // }));
 
 router.get('/profile', function(req, res, next) {
+  console.log(req.user);
   if (req.isAuthenticated()) {
     res.render('user/profile', {
       user: req.user
