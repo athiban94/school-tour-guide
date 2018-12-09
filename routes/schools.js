@@ -9,6 +9,11 @@ router.get("/:id",async (req,res) => {
         schoolId = req.params.id;
         const school = await schoolData.getSchoolById(schoolId);
         const restaurantCollection = await restaurantData.getRestaurantBySchoolId(schoolId);
+        restaurantCollection.sort(function(a, b){
+            return b.score-a.score
+        });
+        console.log("Restaurant list is :: ");
+        console.log(restaurantCollection);
         res.render('resturants/resturantList', {
             restaurants: restaurantCollection,
             school: school
