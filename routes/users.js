@@ -62,7 +62,6 @@ router.get('/profile', function(req, res, next) {
 });
 
 router.post('/profile', async function(req, res, next) {
-  console.log("---");
   if (req.isAuthenticated()) {
     //console.log(req.body);
     let id = req.user._id;
@@ -71,7 +70,6 @@ router.post('/profile', async function(req, res, next) {
     let user = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
-    console.log(first,'-',last,'-',user,'-',email,'-',password);
     if (password===undefined)
     {
       if(first == '' || last == '' || user == '' || email == '')
