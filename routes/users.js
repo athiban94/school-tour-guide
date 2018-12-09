@@ -70,8 +70,10 @@ router.post('/profile', async function(req, res, next) {
     let user = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
+    //If the apply button is for profile change
     if (password===undefined)
     {
+      //Empty check
       if(first == '' || last == '' || user == '' || email == '')
       {
         res.render('user/profile', {
@@ -96,8 +98,10 @@ router.post('/profile', async function(req, res, next) {
           }
       }
     }
+    //If the apply button is for password change
     else
     {
+      //Empty check
       if(password == '') {
         res.render('user/profile', {
           user: req.user,
@@ -107,6 +111,7 @@ router.post('/profile', async function(req, res, next) {
       else
       {
         try {
+          req.body.password = userData.encryptPassword(req.body.password);
           let updatedData = req.body;
           const updatedPost = await userData.updatePatch(updatedData,id)
           res.render('user/profile', {
