@@ -32,7 +32,6 @@ let exportedMethods = {
       if(!user) {
           return false;
       }
-      console.log(user);
       return user;
     }
     else {
@@ -47,7 +46,6 @@ let exportedMethods = {
       if(!user) {
           return false;
       }
-      console.log(user);
       return user;
     }
     else {
@@ -118,6 +116,12 @@ let exportedMethods = {
         return user
       }
     }
+  },
+
+  async updatePatch(data,userId) {
+    const usersCollection = await users();
+    const PatchInfo = await usersCollection.update({_id: userId}, {$set: data});
+    return PatchInfo
   },
 
   async addToWishlist(data,userId) {

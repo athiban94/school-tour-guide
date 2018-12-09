@@ -61,6 +61,72 @@ router.get('/profile', function(req, res, next) {
   }
 });
 
+router.post('/profile', async function(req, res, next) {
+  console.log("---");
+  if (req.isAuthenticated()) {
+    //console.log(req.body);
+    let id = req.user._id;
+    let first = req.body.firstname;
+    let last = req.body.lastname;
+    let user = req.body.username;
+    let email = req.body.email;
+    let password = req.body.password;
+    console.log(first,'-',last,'-',user,'-',email,'-',password);
+    if (password===undefined)
+    {
+      if(first == '' || last == '' || user == '' || email == '')
+      {
+        res.render('user/profile', {
+          user: req.user,
+          message: "Please fill blank parts!"
+        });
+      }
+      else
+      {
+        try {
+          let updatedData = req.body;
+          const updatedPost = await userData.updatePatch(updatedData,id)
+          res.render('user/profile', {
+            user: req.user
+          });
+        }
+          catch (e){
+            res.render('user/profile', {
+              user: req.user,
+              message: "Can not update now, please try again later."
+            });
+          }
+      }
+    }
+    else
+    {
+      if(password == '') {
+        res.render('user/profile', {
+          user: req.user,
+          message: "Password can not be blank!"
+        });
+      }
+      else
+      {
+        try {
+          let updatedData = req.body;
+          const updatedPost = await userData.updatePatch(updatedData,id)
+          res.render('user/profile', {
+            user: req.user
+          });
+        }
+          catch (e){
+            res.render('user/profile', {
+              user: req.user,
+              message: "Can not update now, please try again later."
+            });
+          }
+      }
+    }
+  } else {
+    res.redirect('/');
+  }
+});
 
 router.post('/addtowishlist', async function(req, res, next) {
   if (req.isAuthenticated()) {
