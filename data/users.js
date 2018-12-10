@@ -178,13 +178,19 @@ let exportedMethods = {
         if(user.username === undefined || user.username === "") throw "Missing Username"
         if(user.email === undefined || user.email === "") throw "Missing Email"
         if(user.password === undefined || user.password === "") throw "Missing Password"
-        
+        let role = "";
         firstName = user.firstname;
         lastName = user.lastname;
         username = user.username;
         email = user.email;
         password = user.password;
         const userCollection = await users();
+        if(user.role){
+          role = user.role;
+        }
+        else{
+          role = "user"
+        }
         const newUser =
         {
             _id: uuid.v4(),
@@ -192,7 +198,8 @@ let exportedMethods = {
             lastname: lastName,
             username: username,
             email: email,
-            password: password
+            password: password,
+            role: role
         };
         const userInserted = await userCollection.insertOne(newUser);
         const userId = userInserted.insertedId;

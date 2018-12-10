@@ -53,6 +53,17 @@ let exportedMethods = {
         return restaurantStored;   
     },
 
+    async deleteRestraunt(id){
+        const restaurantCollection = await restaurants();
+        const deleteinfo = await restaurantCollection.removeOne({
+            _id: id
+        });
+        if (deleteinfo.deleteCount === 0){
+            return false;
+        }
+        return true;
+    },
+
     async voteRestaurant(restaurantJSON, userId) {
         restaurant = await this.getRestaurantById(restaurantJSON.restaurantid);
         const restaurantCollection = await restaurants();

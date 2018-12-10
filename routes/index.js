@@ -4,6 +4,7 @@ const schoolRoutes = require("./schools");
 const restaurantRoutes = require("./restaurants");
 const commentsRoutes = require("./comments");
 const schoolData = require("../data/schools");
+const adminRoutes = require("../routes/admin")
 
 
 const constructorMethod = app => {
@@ -15,6 +16,8 @@ const constructorMethod = app => {
 
   // Restaurant Routes
   app.use("/restaurant", restaurantRoutes);
+
+  app.use("/admin", adminRoutes)
 
   // Comment Routes
   app.use("/comment", commentsRoutes);

@@ -60,6 +60,19 @@ router.post('/addrestaurant', async function (req, res, next) {
 
 });
 
+router.post('/deleterestaurant', async function (req, res, next) {
+        const restaurantInfo = req.body;
+        const restaurantId = restaurantInfo.restaurantid;
+        if(await restaurantData.deleteRestraunt(restaurantId)) {
+            restaurantInfo.delete = true;
+            res.json(restaurantInfo);
+        } else {
+            restaurantInfo.delete = false;
+            res.json(restaurantInfo)
+        }
+});
+
+
 router.post('/vote', async function (req, res, next) {
     if (req.isAuthenticated()) {
         data = req.body;
