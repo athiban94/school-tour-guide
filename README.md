@@ -49,11 +49,11 @@ npm start
 
 ## Authors
 
-* **Rohnit Shetty** 
-(https://github.com/wronrohn)
-
 * **Atiban P** 
 (https://github.com/athiban94)
+
+* **Rohnit Shetty** 
+(https://github.com/wronrohn)
 
 * **Yitong Jing** 
 (https://github.com/ethanjing)
