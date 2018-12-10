@@ -25,7 +25,15 @@ $( document ).ready(function() {
             url: '/user/updateprofile',
             data: postData,
             success: function(response) {
-                console.log("Inside the success");
+                $("#firstname").val(response.firstname);
+                $("#firstname").attr("disabled", true);
+                $("#lastname").val(response.lastname);
+                $("#lastname").attr("disabled", true);
+                $("#username").val(response.username);
+                $("#username").attr("disabled", true);
+                $("#email").val(response.email);
+                $("#email").attr("disabled", true);
+                swal("Done!", "Your profile is now updated!", "success");
             },
             error: function(error) {
                 console.log("Exception Caught: " + error);

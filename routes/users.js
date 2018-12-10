@@ -57,8 +57,7 @@ router.post('/updateprofile', async function(req, res, next) {
       data = req.body;
       userId = req.user._id;
       userInfoUpdated = await userData.updateUser(data,userId);
-      console.log("User data updated in the route-user.js");
-      console.log(userInfoUpdated);
+      req.session.passport.user = userInfoUpdated;
       res.send(userInfoUpdated);
   } else {
       res.redirect('/');

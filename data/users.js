@@ -100,21 +100,20 @@ let exportedMethods = {
   async updateUser(newUser, userId) {
     const user = await this.getUserById(userId);
     const userCollection = await users();
-    user.firstname = newUser.firstname;
-    user.lastname = newUser.lastname;
-    user.username = newUser.username;
-    user.email = newUser.email;
-    return user;
-    // let updatecommand =
-    // {
-    //     $set: user
-    // };
-    // const query =
-    // {
-    //     _id: userId
-    // };
-    // await userCollection.updateOne(query, updatecommand);
-    // return this.getUserById(userId);
+    user.firstname = newUser.firstname.toLowerCase();
+    user.lastname = newUser.lastname.toLowerCase();
+    user.username = newUser.username.toLowerCase();
+    user.email = newUser.email.toLowerCase();
+    let updatecommand =
+    {
+        $set: user
+    };
+    const query =
+    {
+        _id: userId
+    };
+    await userCollection.updateOne(query, updatecommand);
+    return this.getUserById(userId);
   },
 
   async removeVoteForRestaurant(restaurantId, userId) {
