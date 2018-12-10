@@ -97,6 +97,26 @@ let exportedMethods = {
 
   },
 
+  async updateUser(newUser, userId) {
+    const user = await this.getUserById(userId);
+    const userCollection = await users();
+    user.firstname = newUser.firstname;
+    user.lastname = newUser.lastname;
+    user.username = newUser.username;
+    user.email = newUser.email;
+    return user;
+    // let updatecommand =
+    // {
+    //     $set: user
+    // };
+    // const query =
+    // {
+    //     _id: userId
+    // };
+    // await userCollection.updateOne(query, updatecommand);
+    // return this.getUserById(userId);
+  },
+
   async removeVoteForRestaurant(restaurantId, userId) {
     const user = await this.getUserById(userId);
     const userCollection = await users();

@@ -13,6 +13,78 @@ $( document ).ready(function() {
         }
     });
 
+    $(".account-info-wrapper .update-profile").click(function(event){
+        postData = {
+            'firstname' : $("#firstname").val().toLowerCase(),
+            'lastname' : $("#lastname").val().toLowerCase(),
+            'username' : $("#username").val().toLowerCase(),
+            'email' : $("#email").val().toLowerCase()
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/user/updateprofile',
+            data: postData,
+            success: function(response) {
+                console.log("Inside the success");
+            },
+            error: function(error) {
+                console.log("Exception Caught: " + error);
+            }
+        });
+    });
+
+    $(".account-info-wrapper .edit-section").click(function(event){
+        ele = $(this);
+        formGroupDiv = ele.parent();
+        console.log(formGroupDiv.attr('class'));
+        formGroupDiv.find(':input').removeAttr('disabled');
+        formGroupDiv.find(':input').focus();
+        $(".btn-account-div").show();
+    });
+
+    $(".delete-item-wishlist").click(function(event){
+        ele = $(this);
+        parentElementDiv = ele.parent();
+        var restaurantId = ele.attr('data-id');
+        postData = {
+            'restaurantid' : restaurantId
+        }
+        swal({
+            title: "Are you sure?",
+            text: "Do you really wanna remove from your wishlist?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Remove",
+            closeOnConfirm: false
+        },
+        function(){
+            $.ajax({
+                type: 'POST',
+                url: '/user/removefromwishlist',
+                data: postData,
+                success: function(response) {
+                    if(response.validation) {
+                        swal("Removed!", "The restaurant is removed from your wishlist", "success");
+                        location.reload();
+                    } else {
+                       swal({
+                            title: "You are not logged in!",
+                            text: "Please login to add to wishlist..",
+                            type: "warning",
+                            showCancelButton: false,
+                            confirmButtonClass: 'btn-primary',
+                            confirmButtonText: 'OK'
+                        }); 
+                    }
+                },
+                error: function(error) {
+                    console.log("Exception Caught: " + error);
+                }
+            });
+        });
+    });
+
     $("button.comment-submit").click(function(event){
         commentText = $(".comment-div-wrapper textarea.comment-area").val();
         restaurantId = $(".retaurant_id").val();

@@ -1,3 +1,7 @@
+html, 
+body {
+    height: 100%;
+}
 div,
 p,
 span {
@@ -174,4 +178,73 @@ h1 {
 .restaurant-img-outer
 {
     text-align: center;
+}
+.wishlist-wrapper
+{
+    text-align: center;
+    padding-top: 10px;
+}
+.account-info-wrapper label {
+    font-variant: small-caps;
+}
+.wishlist-label-div
+{
+    text-align: center;
+    font-size: 22px;
+    font-variant: small-caps;
+    color: #585b5c;
+    padding: 10px 0px;
+}
+.wishlist-row-wrap
+{
+    max-width: 768px;
+    margin: 0px auto;
+}
+.delete-item-wishlist
+{
+    position: relative;
+    float: right;
+    right: 12px;
+    top: 25px;
+    cursor: pointer;
+}
+.delete-item-wishlist i:hover 
+{
+    font-size: 15px;
+    color: #F08080;
+}
+.no-wishlist-exists
+{
+    text-align: center;
+    line-height: 22px;
+}
+.no-wishlist-section
+{
+    text-align: center;
+}
+.browse-schools-cta
+{
+    padding-top: 20px;
+}
+.footer-div
+{
+    /* position: fixed;
+    bottom: 0;
+    text-align: center;
+    width: 100%; */
+    background-color: #f8f9fa;
+}
+.account-info-wrapper .edit-section
+{
+    float: right;
+}
+.account-info-wrapper .edit-section i{
+    color: #585b5c;
+    cursor: pointer;
+}
+.btn-account-div
+{
+    display: none;
+    text-align: center;
+    padding: 10px 0px;
 }

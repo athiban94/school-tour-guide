@@ -19,8 +19,10 @@ module.exports = function(passport) {
     }, function(req, username, password, done) {
             userData.getUserByUsername(username.toLowerCase()).then((user) => {
                 bcrypt.compare(password, user.password, function (err, res) {
-                    if (err)
-                        return Promise.reject("Error");
+                    if (err){
+                        return done(null, false, req.flash('loginMessage', 'Incorrect Username'));
+                        // return Promise.reject("Error");
+                    }
                     else {
                         if (res === true)
                             return done(null, user);
