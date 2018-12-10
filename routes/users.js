@@ -140,8 +140,9 @@ router.post('/signup', async function(req, res, next) {
     newUserData.lastname = newUserData.lastname.toLowerCase();
     userName = newUserData.username.toLowerCase();
     userEmail = newUserData.email.toLowerCase();
-    let user = await userData.getUserByUserNameOrEmail(userName, userEmail);
-    if(user) {
+    let user = await userData.getUserByUsername(userName);
+    let userWithEmail = await userData.getUserByEmail(userEmail);
+    if(user || userWithEmail) {
       req.flash('loginMessage', 'Username or User Email Already Exists');
       res.redirect("/user/signup");
     } else {
