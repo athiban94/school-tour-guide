@@ -56,9 +56,38 @@ router.post('/updateprofile', async function(req, res, next) {
   if (req.isAuthenticated()) {
       data = req.body;
       userId = req.user._id;
-      userInfoUpdated = await userData.updateUser(data,userId);
-      req.session.passport.user = userInfoUpdated;
-      res.send(userInfoUpdated);
+      if(data.username != req.user.username) {
+        user = await userData.getUserByUsername(data.username);
+        if(user) {
+          data.validation = false;
+          data.message = "User already existes with the same username";
+          res.send(data);
+        } else {
+          userInfoUpdated = await userData.updateUser(data,userId);
+          userInfoUpdated.validation = true;
+          req.session.passport.user = userInfoUpdated;
+          res.send(userInfoUpdated);
+        }
+      }
+      else if(data.email != req.user.email) {
+        userEmail = await userData.getUserByEmail(data.email);
+        if(userEmail) {
+          data.validation = false;
+          data.message = "User already existes with the same email";
+          res.send(data);
+        } else {
+              userInfoUpdated = await userData.updateUser(data,userId);
+              userInfoUpdated.validation = true;
+              req.session.passport.user = userInfoUpdated;
+              res.send(userInfoUpdated);
+        }
+      } else {
+              userInfoUpdated = await userData.updateUser(data,userId);
+              userInfoUpdated.validation = true;
+              req.session.passport.user = userInfoUpdated;
+              res.send(userInfoUpdated);
+      }
+      
   } else {
       res.redirect('/');
   }

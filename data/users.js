@@ -47,7 +47,6 @@ let exportedMethods = {
       if(!user) {
           return false;
       }
-      console.log(user);
       return user;
     }
     else {
