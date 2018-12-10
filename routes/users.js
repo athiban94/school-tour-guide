@@ -4,6 +4,7 @@ const router = express.Router();
 var csrf = require('csurf');
 const userData = require("../data/users");
 var passport = require('passport');
+const restaurantData = require("../data/restaurants");
 
 // All the routes in the router should be protected by csrf protection
 
@@ -26,6 +27,7 @@ router.get("/login", (req, res, next) => {
 router.post('/login', function(req, res, next) {
   passport.authenticate('local', {failureFlash: true}, function(err, user, info) {
     if (err) {
+       console.log("error happend");
        return next(err); 
     }
     if (!user) {
@@ -50,13 +52,74 @@ router.post('/custom', async function(req, res, next) {
 //   failureRedirect: '/user/signup',
 //   failureFlash: true 
 // }));
-
-router.get('/profile', function(req, res, next) {
-  console.log(req.user);
+router.post('/updateprofile', async function(req, res, next) {
   if (req.isAuthenticated()) {
-    res.render('user/profile', {
-      user: req.user
-    });
+      data = req.body;
+      userId = req.user._id;
+      if(data.username != req.user.username) {
+        user = await userData.getUserByUsername(data.username);
+        if(user) {
+          data.validation = false;
+          data.message = "User already existes with the same username";
+          res.send(data);
+        } else {
+          userInfoUpdated = await userData.updateUser(data,userId);
+          userInfoUpdated.validation = true;
+          req.session.passport.user = userInfoUpdated;
+          res.send(userInfoUpdated);
+        }
+      }
+      else if(data.email != req.user.email) {
+        userEmail = await userData.getUserByEmail(data.email);
+        if(userEmail) {
+          data.validation = false;
+          data.message = "User already existes with the same email";
+          res.send(data);
+        } else {
+              userInfoUpdated = await userData.updateUser(data,userId);
+              userInfoUpdated.validation = true;
+              req.session.passport.user = userInfoUpdated;
+              res.send(userInfoUpdated);
+        }
+      } else {
+              userInfoUpdated = await userData.updateUser(data,userId);
+              userInfoUpdated.validation = true;
+              req.session.passport.user = userInfoUpdated;
+              res.send(userInfoUpdated);
+      }
+      
+  } else {
+      res.redirect('/');
+  }
+  
+});
+router.get('/profile', async function(req, res, next) {
+  if (req.isAuthenticated()) {
+    userId = req.user._id;
+    userInfo = await userData.getUserById(userId);
+    restaurantIds = userInfo.wishlist;
+    showWishlist = false;
+    if(restaurantIds) {
+      showWishlist = true;
+      wishlistJSON = [];
+      for(var i=0; i<restaurantIds.length; i++) {
+        restaurant = await restaurantData.getRestaurantById(restaurantIds[i]);
+        wishlistJSON.push(restaurant);
+      }
+      res.render('user/profile', {
+        user: req.user,
+        existwishlist: showWishlist,
+        wishlist: wishlistJSON
+      });
+      console.log("wishlist exists");
+    } else {
+      res.render('user/profile', {
+        user: req.user,
+        existwishlist: showWishlist
+      });
+    }
+    
+    
   } else {
     res.redirect('/');
   }
@@ -99,10 +162,15 @@ router.post('/signup', async function(req, res, next) {
   try {
     req.body.password = userData.encryptPassword(req.body.password);
     let newUserData = req.body;
+    newUserData.username = newUserData.username.toLowerCase();
+    newUserData.email = newUserData.email.toLowerCase();
+    newUserData.firstname = newUserData.firstname.toLowerCase();
+    newUserData.lastname = newUserData.lastname.toLowerCase();
     userName = newUserData.username.toLowerCase();
-    userEmail = newUserData.email;
-    let user = await userData.getUserByUserNameOrEmail(userName, userEmail)
-    if(user) {
+    userEmail = newUserData.email.toLowerCase();
+    let user = await userData.getUserByUsername(userName);
+    let userWithEmail = await userData.getUserByEmail(userEmail);
+    if(user || userWithEmail) {
       req.flash('loginMessage', 'Username or User Email Already Exists');
       res.redirect("/user/signup");
     } else {

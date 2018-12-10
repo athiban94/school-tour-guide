@@ -53,7 +53,111 @@ $(document).ready(function () {
         
     });
 
-    $("button.comment-submit").click(function (event) {
+    $(".account-info-wrapper .update-profile").click(function(event){
+        userEmail = $("#email").val().toLowerCase();
+        if(!validateEmail(userEmail)) {
+            swal({
+                title: "Invalid Email",
+                text: "Provide a valid email",
+                type: "warning",
+                showCancelButton: false,
+                confirmButtonClass: 'btn-primary',
+                confirmButtonText: 'OK'
+            }); 
+            return false;
+        }
+        postData = {
+            'firstname' : $("#firstname").val().toLowerCase(),
+            'lastname' : $("#lastname").val().toLowerCase(),
+            'username' : $("#username").val().toLowerCase(),
+            'email' : $("#email").val().toLowerCase()
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/user/updateprofile',
+            data: postData,
+            success: function(response) {
+                if(response.validation) {
+                    $("#firstname").val(response.firstname);
+                    $("#firstname").attr("disabled", true);
+                    $("#lastname").val(response.lastname);
+                    $("#lastname").attr("disabled", true);
+                    $("#username").val(response.username);
+                    $("#username").attr("disabled", true);
+                    $("#email").val(response.email);
+                    $("#email").attr("disabled", true);
+                    swal("Done!", "Your profile is now updated!", "success");
+                } else {
+                    swal({
+                        title: "Error",
+                        text: response.message,
+                        type: "warning",
+                        showCancelButton: false,
+                        confirmButtonClass: 'btn-primary',
+                        confirmButtonText: 'OK'
+                    }); 
+                }
+                
+            },
+            error: function(error) {
+                console.log("Exception Caught: " + error);
+            }
+        });
+    });
+
+    $(".account-info-wrapper .edit-section").click(function(event){
+        ele = $(this);
+        formGroupDiv = ele.parent();
+        console.log(formGroupDiv.attr('class'));
+        formGroupDiv.find(':input').removeAttr('disabled');
+        formGroupDiv.find(':input').focus();
+        $(".btn-account-div").show();
+    });
+
+    $(".delete-item-wishlist").click(function(event){
+        ele = $(this);
+        parentElementDiv = ele.parent();
+        var restaurantId = ele.attr('data-id');
+        postData = {
+            'restaurantid' : restaurantId
+        }
+        swal({
+            title: "Are you sure?",
+            text: "Do you really wanna remove from your wishlist?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Remove",
+            closeOnConfirm: false
+        },
+        function(){
+            $.ajax({
+                type: 'POST',
+                url: '/user/removefromwishlist',
+                data: postData,
+                success: function(response) {
+                    if(response.validation) {
+                        swal("Removed!", "The restaurant is removed from your wishlist", "success");
+                        location.reload();
+                    } else {
+                       swal({
+                            title: "You are not logged in!",
+                            text: "Please login to add to wishlist..",
+                            type: "warning",
+                            showCancelButton: false,
+                            confirmButtonClass: 'btn-primary',
+                            confirmButtonText: 'OK'
+                        }); 
+                    }
+                },
+                error: function(error) {
+                    console.log("Exception Caught: " + error);
+                }
+            });
+        });
+    });
+
+    $("button.comment-submit").click(function(event){
         commentText = $(".comment-div-wrapper textarea.comment-area").val();
         restaurantId = $(".retaurant_id").val();
         if (!commentText || commentText === "") {
@@ -214,4 +318,9 @@ function validateFormFields(formId) {
         }
     });
     return validation;
+}
+
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
 }

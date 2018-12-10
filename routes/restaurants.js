@@ -63,6 +63,14 @@ router.post('/addrestaurant', async function (req, res, next) {
 router.post('/deleterestaurant', async function (req, res, next) {
         const restaurantInfo = req.body;
         const restaurantId = restaurantInfo.restaurantid;
+        userCollection = await userData.getAllUsers();
+        if(userCollection) {
+            for(var i=0; i<userCollection.length; i++) {
+                userId = userCollection[i]._id;
+                deleteFromWishlist = await userData.removeFromWishlist(restaurantInfo, userId);
+                delelteVotes = await userData.removeVoteForRestaurant(restaurantId, userId);
+            }
+        }
         if(await restaurantData.deleteRestraunt(restaurantId)) {
             restaurantInfo.delete = true;
             res.json(restaurantInfo);
