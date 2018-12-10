@@ -135,7 +135,7 @@ router.post('/signup', async function(req, res, next) {
     req.body.password = userData.encryptPassword(req.body.password);
     let newUserData = req.body;
     newUserData.username = newUserData.username.toLowerCase();
-    newUserData.email = newUserData.username.toLowerCase();
+    newUserData.email = newUserData.email.toLowerCase();
     newUserData.firstname = newUserData.firstname.toLowerCase();
     newUserData.lastname = newUserData.lastname.toLowerCase();
     userName = newUserData.username.toLowerCase();
