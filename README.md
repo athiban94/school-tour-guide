@@ -56,7 +56,7 @@ npm start
 (https://github.com/wronrohn)
 
 * **Yitong Jing** 
-(https://github.com/ethanjing)
+(https://github.com/yitongjing)
 
 * **Teng Xu** 
 (https://github.com/tengger/)
