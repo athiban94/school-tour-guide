@@ -1,7 +1,8 @@
-html, 
+html,
 body {
     height: 100%;
 }
+
 div,
 p,
 span {
@@ -56,8 +57,8 @@ h1 {
     .restaurant-list-wrapper {
         margin: -5px;
     }
-    .right-mobile
-    {
+
+    .right-mobile {
         float: right;
     }
 }
@@ -66,6 +67,7 @@ h1 {
     .logo-mobile {
         display: none;
     }
+
     .wishlist-add-wrapper span {
         margin: 5px;
     }
@@ -134,122 +136,133 @@ h1 {
 
 .comment-text {
     border-radius: 12px;
-    
+
     font-style: italic;
 
 }
 
 .comment-header {
-    
+
     font-weight: bold;
 }
+
 .wishlist-add-wrapper {
     padding-top: 10px;
     padding-bottom: 5px;
 }
+
 .wishlist-add-wrapper i {
     font-size: 22px;
     color: #d3d3d3;
     cursor: pointer;
-    -webkit-transition: width 2s, height 2s; /* For Safari 3.1 to 6.0 */
+    -webkit-transition: width 2s, height 2s;
+    /* For Safari 3.1 to 6.0 */
     transition: width 2s, height 2s;
 }
+
 .wishlist-add-wrapper i:hover {
     font-size: 24px;
 }
 
-.wishlist-add-wrapper i.added-to-wishlist 
-{
-    color: 	#F08080 !important;
+.wishlist-add-wrapper i.added-to-wishlist {
+    color: #F08080 !important;
 }
 
-.wishlist-add-wrapper i.upvoted 
-{
-    color: 	#90EE90 !important;
+.wishlist-add-wrapper i.upvoted {
+    color: #90EE90 !important;
 }
 
 .username-text {
     font-style: italic;
-    text-transform: capitalize; 
+    text-transform: capitalize;
 }
+
 .description-page-wrapper {
     align-items: center;
 }
-.restaurant-img-outer
-{
-    text-align: center;
+
+.resize-image {
+    width: 350px;
+    height: 234px;
 }
-.wishlist-wrapper
-{
+
+.restaurant-img-outer {
+    text-align: center;
+
+}
+
+.wishlist-wrapper {
     text-align: center;
     padding-top: 10px;
 }
+
 .account-info-wrapper label {
     font-variant: small-caps;
 }
-.wishlist-label-div
-{
+
+.wishlist-label-div {
     text-align: center;
     font-size: 22px;
     font-variant: small-caps;
     color: #585b5c;
     padding: 10px 0px;
 }
-.wishlist-row-wrap
-{
+
+.wishlist-row-wrap {
     max-width: 768px;
     margin: 0px auto;
 }
-.delete-item-wishlist
-{
+
+.delete-item-wishlist {
     position: relative;
     float: right;
     right: 12px;
     top: 25px;
     cursor: pointer;
 }
-.delete-item-wishlist i:hover 
-{
+
+.delete-item-wishlist i:hover {
     font-size: 15px;
     color: #F08080;
 }
-.no-wishlist-exists
-{
+
+.no-wishlist-exists {
     text-align: center;
     line-height: 22px;
 }
-.no-wishlist-section
-{
+
+.no-wishlist-section {
     text-align: center;
 }
-.browse-schools-cta
-{
+
+.browse-schools-cta {
     padding-top: 20px;
 }
-.footer-div
-{
+
+.footer-div {
     /* position: fixed;
     bottom: 0;
     text-align: center;
     width: 100%; */
     background-color: #f8f9fa;
 }
-.account-info-wrapper .edit-section
-{
+
+.account-info-wrapper .edit-section {
     float: right;
 }
-.account-info-wrapper .edit-section i{
+
+.account-info-wrapper .edit-section i {
     color: #585b5c;
     cursor: pointer;
 }
-.btn-account-div
-{
+
+.btn-account-div {
     display: none;
     text-align: center;
     padding: 10px 0px;
 }
-.wishlist-restaurant-img img 
-{
+
+.wishlist-restaurant-img img {
     width: 350px;
     height: 234px;
 }
