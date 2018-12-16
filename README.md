@@ -64,7 +64,7 @@ npm start
 
 
 
-## Git Link
+## Github Link
 
 https://github.com/athiban94/school-tour-guide
 
